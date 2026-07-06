@@ -17,3 +17,9 @@ id = "GtSsIY39ZJRAl_YqDCDKw"
 uri = "file://artifacts/penrose-music-generator/public/lars-lentz-aperiodic-composer-offline.zip"
 type = "unspecified"
 title = "Offline static build (same file the in-app Download Offline link serves)"
+
+[[outputs]]
+id = "EbTfRbslL1GuUo6HzFRAQ"
+uri = "file://aperiodic-composer-static-site.zip"
+type = "unspecified"
+title = "Pre-built static site (no build step needed)"
