@@ -85,6 +85,7 @@ export function generateEventSequence(
   const interweave = params.melodyMode === "melodicInterweave";
   const voicePrevDegree: (number | null)[] = [null, null];
   const voiceStepCounters = [0, 0];
+  const voiceTimeCounters = [0, 0];
 
   ordered.forEach((tile, i) => {
     const gate = hashString(`${tile.id}:gate`);
@@ -157,10 +158,18 @@ export function generateEventSequence(
       sampleGroup = (sampleGroup + voice * 2) % 4;
     }
 
+    let time: number;
+    if (interweave) {
+      time = voiceTimeCounters[voice];
+      voiceTimeCounters[voice] += step;
+    } else {
+      time = i * step;
+    }
+
     events.push({
       index: events.length,
       tileId: tile.id,
-      time: i * step,
+      time,
       note,
       velocity,
       duration,
@@ -168,6 +177,11 @@ export function generateEventSequence(
       sampleGroup,
       voice,
     });
+  });
+
+  events.sort((a, b) => a.time - b.time);
+  events.forEach((evt, i) => {
+    evt.index = i;
   });
 
   return events;
