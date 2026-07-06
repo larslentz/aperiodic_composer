@@ -1,1 +1,2 @@
 - [New artifact workflow env vars](artifact-workflow-env.md) — registering an artifact doesn't auto-create its workflow; configureWorkflow needs PORT/BASE_PATH inlined in the command, not just relying on artifact.toml.
+- [Radix Select dropdown scroll](radix-select-scroll.md) — shadcn Select popper content must have a fixed max-height fallback, not rely solely on the Radix CSS var, or scrolling silently breaks.
