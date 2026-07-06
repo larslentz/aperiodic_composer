@@ -1,6 +1,6 @@
-# Penrose Music Generator
+# Lars Lentz's Aperiodic Composer
 
-An installable, local-first PWA that generates Penrose-inspired quasi-periodic tilings and converts them into exportable musical event sequences (MIDI, CSV, JSON preset) for ambient/experimental composers.
+An installable, local-first PWA that generates Penrose-inspired quasi-periodic tilings and converts them into exportable musical event sequences (MIDI, CSV, JSON preset) for ambient/experimental composers. Current version: 1.01.
 
 ## Run & Operate
 

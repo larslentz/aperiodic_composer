@@ -19,7 +19,7 @@ import PenroseCanvas from "@/components/PenroseCanvas";
 import ControlPanel from "@/components/ControlPanel";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Square, Download, Upload, Loader2, Save, Volume2, VolumeX } from "lucide-react";
+import { Play, Square, Download, Upload, Loader2, Save, Volume2, VolumeX, HardDriveDownload } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
@@ -192,10 +192,26 @@ export default function Home() {
           <div className="w-8 h-8 rounded bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-glow">
             P
           </div>
-          <h1 className="text-xl font-bold tracking-tight">Penrose Music Generator</h1>
+          <h1 className="text-xl font-bold tracking-tight">Lars Lentz's Aperiodic Composer</h1>
+          <span
+            className="text-[10px] font-mono text-muted-foreground border border-border rounded px-1.5 py-0.5"
+            data-testid="text-app-version"
+          >
+            v1.01
+          </span>
         </div>
         
         <div className="flex items-center gap-2">
+          <a
+            href={`${import.meta.env.BASE_URL}lars-lentz-aperiodic-composer-offline.zip`}
+            download
+            data-testid="link-download-offline"
+          >
+            <Button variant="outline" size="sm">
+              <HardDriveDownload className="w-4 h-4 mr-2" />
+              Download Offline
+            </Button>
+          </a>
           <label className="cursor-pointer">
             <Button variant="outline" size="sm" asChild>
               <span>
