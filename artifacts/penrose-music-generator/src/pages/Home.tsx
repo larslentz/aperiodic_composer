@@ -165,7 +165,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col font-mono selection:bg-primary selection:text-primary-foreground">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary selection:text-primary-foreground">
       {/* Header */}
       <header className="flex-none h-16 border-b border-border px-6 flex items-center justify-between bg-card">
         <div className="flex items-center gap-3">
