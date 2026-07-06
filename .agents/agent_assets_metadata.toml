@@ -10,7 +10,7 @@ title = "generated_image"
 id = "4QUok5WKy68RtfJptXowQ"
 uri = "file://lars-lentz-aperiodic-composer-source.zip"
 type = "unspecified"
-title = "GitHub-ready source code (push to your own repo)"
+title = "Fixed GitHub-ready source code (with Pages deploy workflow)"
 
 [[outputs]]
 id = "GtSsIY39ZJRAl_YqDCDKw"
