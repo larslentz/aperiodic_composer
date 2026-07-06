@@ -84,6 +84,13 @@ export const DEFAULT_MAPPING: MappingRules = {
   sampleGroupSource: "tileType",
 };
 
+export type MelodyMode = "geometric" | "melodicInterweave";
+
+export const MELODY_MODES: { value: MelodyMode; label: string }[] = [
+  { value: "geometric", label: "Geometric (raw mapping)" },
+  { value: "melodicInterweave", label: "Melodic / Interweave" },
+];
+
 export interface GeneratorParams {
   depth: number;
   traversalMode: TraversalMode;
@@ -94,6 +101,7 @@ export interface GeneratorParams {
   noteRangeHigh: number;
   rhythmDensity: number;
   mapping: MappingRules;
+  melodyMode: MelodyMode;
 }
 
 export const DEFAULT_PARAMS: GeneratorParams = {
@@ -106,6 +114,7 @@ export const DEFAULT_PARAMS: GeneratorParams = {
   noteRangeHigh: 81,
   rhythmDensity: 0.55,
   mapping: DEFAULT_MAPPING,
+  melodyMode: "geometric",
 };
 
 export interface MusicEvent {
@@ -117,6 +126,7 @@ export interface MusicEvent {
   duration: number;
   pan: number;
   sampleGroup: number;
+  voice: number;
 }
 
 export interface Preset {

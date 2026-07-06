@@ -26,6 +26,26 @@ function boundingRadius(tiles: Tile[]): number {
   return max;
 }
 
+const PHRASE_LEN = 16;
+const CONTOUR_AMPLITUDE = 4;
+const MAX_INTERVAL_JUMP = 2;
+
+function melodicDegree(
+  prevDegree: number | null,
+  rawDegree: number,
+  voiceStep: number,
+  phaseOffset: number,
+): number {
+  const contour =
+    Math.sin((voiceStep / PHRASE_LEN) * Math.PI * 2 + phaseOffset) *
+    CONTOUR_AMPLITUDE;
+  const target = rawDegree + contour;
+  if (prevDegree === null) return Math.round(target);
+  const delta = target - prevDegree;
+  const clamped = Math.max(-MAX_INTERVAL_JUMP, Math.min(MAX_INTERVAL_JUMP, delta));
+  return Math.round(prevDegree + clamped);
+}
+
 function sourceValue(
   tile: Tile,
   source: MappingSource,
@@ -62,6 +82,9 @@ export function generateEventSequence(
   const step = secondsPerBeat / 4; // sixteenth-note grid
   const events: MusicEvent[] = [];
   const degreeSpan = 21; // roughly 3 octaves of scale degrees
+  const interweave = params.melodyMode === "melodicInterweave";
+  const voicePrevDegree: (number | null)[] = [null, null];
+  const voiceStepCounters = [0, 0];
 
   ordered.forEach((tile, i) => {
     const gate = hashString(`${tile.id}:gate`);
@@ -98,7 +121,24 @@ export function generateEventSequence(
       maxAdjacency,
     );
 
-    const degree = Math.round(noteVal * degreeSpan);
+    const rawDegree = noteVal * degreeSpan;
+    const voice = interweave ? (tile.type === "kite" ? 0 : 1) : 0;
+
+    let degree: number;
+    if (interweave) {
+      const phaseOffset = voice === 0 ? 0 : Math.PI;
+      degree = melodicDegree(
+        voicePrevDegree[voice],
+        rawDegree,
+        voiceStepCounters[voice],
+        phaseOffset,
+      );
+      voicePrevDegree[voice] = degree;
+      voiceStepCounters[voice] += 1;
+    } else {
+      degree = Math.round(rawDegree);
+    }
+
     const note = degreeToNote(
       params.scale,
       params.rootNote,
@@ -109,8 +149,13 @@ export function generateEventSequence(
     const velocity = Math.round(40 + velVal * 87);
     const durationSteps = 1 + Math.round(durVal * 5);
     const duration = durationSteps * step;
-    const pan = panVal * 2 - 1;
-    const sampleGroup = Math.min(3, Math.floor(groupVal * 4));
+    let pan = panVal * 2 - 1;
+    let sampleGroup = Math.min(3, Math.floor(groupVal * 4));
+    if (interweave) {
+      const voiceBias = voice === 0 ? -0.3 : 0.3;
+      pan = Math.max(-1, Math.min(1, pan * 0.6 + voiceBias));
+      sampleGroup = (sampleGroup + voice * 2) % 4;
+    }
 
     events.push({
       index: events.length,
@@ -121,6 +166,7 @@ export function generateEventSequence(
       duration,
       pan,
       sampleGroup,
+      voice,
     });
   });
 

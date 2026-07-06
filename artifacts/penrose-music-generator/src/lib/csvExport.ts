@@ -13,6 +13,7 @@ export function buildEventCsv(events: MusicEvent[]): string {
     "duration_sec",
     "pan",
     "sampleGroup",
+    "voice",
   ];
   const rows = events.map((e) =>
     [
@@ -25,6 +26,7 @@ export function buildEventCsv(events: MusicEvent[]): string {
       e.duration.toFixed(4),
       e.pan.toFixed(3),
       e.sampleGroup,
+      e.voice,
     ].join(","),
   );
   return [header.join(","), ...rows].join("\n");

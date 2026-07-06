@@ -3,7 +3,8 @@ import {
   GeneratorParams, 
   TRAVERSAL_MODES, 
   SCALE_NAMES, 
-  MAPPING_SOURCES
+  MAPPING_SOURCES,
+  MELODY_MODES
 } from "@/lib/types";
 import { ROOT_NOTE_OPTIONS } from "@/lib/scales";
 import { Button } from "@/components/ui/button";
@@ -80,6 +81,23 @@ export default function ControlPanel({ params, onChange, onGenerate, isGeneratin
       {/* Music Section */}
       <section className="space-y-4">
         <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Musical Parameters</h2>
+
+        <div className="space-y-2">
+          <Label>Melody Mode</Label>
+          <Select value={params.melodyMode} onValueChange={(v: any) => updateParam("melodyMode", v)}>
+            <SelectTrigger data-testid="select-melody-mode">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {MELODY_MODES.map(mode => (
+                <SelectItem key={mode.value} value={mode.value}>{mode.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <p className="text-[10px] text-muted-foreground">
+            Geometric maps tile data directly to notes. Melodic / Interweave splits kite and dart tiles into two smoothed, phrasing voices that interlock.
+          </p>
+        </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">

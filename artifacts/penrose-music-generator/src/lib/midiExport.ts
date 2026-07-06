@@ -52,7 +52,7 @@ export function buildMidiFile(events: MusicEvent[], tempoBpm: number): Uint8Arra
 
   const usedChannels = new Set<number>();
   for (const evt of events) {
-    const channel = evt.sampleGroup % 16;
+    const channel = (evt.voice * 4 + evt.sampleGroup) % 16;
     usedChannels.add(channel);
     const onTick = Math.round(evt.time * ticksPerSecond);
     const offTick = Math.round((evt.time + evt.duration) * ticksPerSecond);

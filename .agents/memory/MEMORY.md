@@ -1,2 +1,3 @@
 - [New artifact workflow env vars](artifact-workflow-env.md) — registering an artifact doesn't auto-create its workflow; configureWorkflow needs PORT/BASE_PATH inlined in the command, not just relying on artifact.toml.
 - [Radix Select dropdown scroll](radix-select-scroll.md) — shadcn Select popper content must have a fixed max-height fallback, not rely solely on the Radix CSS var, or scrolling silently breaks.
+- [Penrose melodic mode design](penrose-melodic-mode.md) — additive melody modes should keep the default mode's math untouched; smoothing needs a periodic contour, not just interval clamping, or it still just tracks a monotonic geometric value.
