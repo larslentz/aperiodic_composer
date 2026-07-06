@@ -1,0 +1,1 @@
+- [New artifact workflow env vars](artifact-workflow-env.md) — registering an artifact doesn't auto-create its workflow; configureWorkflow needs PORT/BASE_PATH inlined in the command, not just relying on artifact.toml.
