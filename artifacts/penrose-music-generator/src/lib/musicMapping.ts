@@ -26,23 +26,22 @@ function boundingRadius(tiles: Tile[]): number {
   return max;
 }
 
-const PHRASE_LEN = 16;
-const CONTOUR_AMPLITUDE = 4;
-const MAX_INTERVAL_JUMP = 2;
-
 function melodicDegree(
   prevDegree: number | null,
   rawDegree: number,
   voiceStep: number,
   phaseOffset: number,
+  phraseLen: number,
+  contourAmplitude: number,
+  maxIntervalJump: number,
 ): number {
   const contour =
-    Math.sin((voiceStep / PHRASE_LEN) * Math.PI * 2 + phaseOffset) *
-    CONTOUR_AMPLITUDE;
+    Math.sin((voiceStep / phraseLen) * Math.PI * 2 + phaseOffset) *
+    contourAmplitude;
   const target = rawDegree + contour;
   if (prevDegree === null) return Math.round(target);
   const delta = target - prevDegree;
-  const clamped = Math.max(-MAX_INTERVAL_JUMP, Math.min(MAX_INTERVAL_JUMP, delta));
+  const clamped = Math.max(-maxIntervalJump, Math.min(maxIntervalJump, delta));
   return Math.round(prevDegree + clamped);
 }
 
@@ -83,6 +82,9 @@ export function generateEventSequence(
   const events: MusicEvent[] = [];
   const degreeSpan = 21; // roughly 3 octaves of scale degrees
   const interweave = params.melodyMode === "melodicInterweave";
+  const phraseLen = params.contourPhraseLen ?? 16;
+  const contourAmplitude = params.contourAmplitude ?? 4;
+  const maxIntervalJump = params.maxIntervalJump ?? 2;
   const voicePrevDegree: (number | null)[] = [null, null];
   const voiceStepCounters = [0, 0];
   const voiceTimeCounters = [0, 0];
@@ -133,6 +135,9 @@ export function generateEventSequence(
         rawDegree,
         voiceStepCounters[voice],
         phaseOffset,
+        phraseLen,
+        contourAmplitude,
+        maxIntervalJump,
       );
       voicePrevDegree[voice] = degree;
       voiceStepCounters[voice] += 1;

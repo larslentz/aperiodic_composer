@@ -3,7 +3,10 @@ import {
   GeneratorParams, 
   DEFAULT_PARAMS, 
   PenroseTiling, 
-  MusicEvent 
+  MusicEvent,
+  VoiceMixSettings,
+  DEFAULT_VOICE_MIX,
+  VOICE_LABELS
 } from "@/lib/types";
 import { generatePenroseTiling } from "@/lib/penrose";
 import { generateEventSequence } from "@/lib/musicMapping";
@@ -15,7 +18,8 @@ import { downloadPreset, parsePreset } from "@/lib/presetExport";
 import PenroseCanvas from "@/components/PenroseCanvas";
 import ControlPanel from "@/components/ControlPanel";
 import { Button } from "@/components/ui/button";
-import { Play, Square, Download, Upload, Loader2, Save } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Play, Square, Download, Upload, Loader2, Save, Volume2, VolumeX } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
@@ -24,6 +28,7 @@ export default function Home() {
   const [params, setParams] = useState<GeneratorParams>(DEFAULT_PARAMS);
   const [tiling, setTiling] = useState<PenroseTiling | null>(null);
   const [events, setEvents] = useState<MusicEvent[]>([]);
+  const [voiceMix, setVoiceMix] = useState<VoiceMixSettings[]>(DEFAULT_VOICE_MIX);
   
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -91,7 +96,8 @@ export default function Home() {
   const startPlayback = () => {
     if (!engineRef.current || events.length === 0) return;
     
-    engineRef.current.play(events, 0.7);
+    const activeVoiceMix = params.melodyMode === "melodicInterweave" ? voiceMix : undefined;
+    engineRef.current.play(events, 0.7, activeVoiceMix);
     setIsPlaying(true);
     playbackStartTime.current = performance.now();
     
@@ -122,6 +128,20 @@ export default function Home() {
     if (playbackAnimationFrame.current) {
       cancelAnimationFrame(playbackAnimationFrame.current);
     }
+  };
+
+  const toggleVoiceMute = (voice: number) => {
+    setVoiceMix((prev) =>
+      prev.map((m, i) => (i === voice ? { ...m, muted: !m.muted } : m)),
+    );
+    if (isPlaying) stopPlayback();
+  };
+
+  const setVoiceVolume = (voice: number, volume: number) => {
+    setVoiceMix((prev) =>
+      prev.map((m, i) => (i === voice ? { ...m, volume } : m)),
+    );
+    if (isPlaying) stopPlayback();
   };
 
   const handleExportMidi = () => {
@@ -221,6 +241,41 @@ export default function Home() {
             ) : null}
             <PenroseCanvas tiling={tiling} activeTileIds={activeTileIds} />
           </div>
+
+          {/* Voice Mixer */}
+          {params.melodyMode === "melodicInterweave" && (
+            <div className="flex-none border-t border-border bg-card px-6 py-3 flex items-center gap-8">
+              {voiceMix.map((mix, i) => (
+                <div key={i} className="flex items-center gap-3 flex-1 max-w-xs">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="flex-none h-8 w-8"
+                    onClick={() => toggleVoiceMute(i)}
+                    data-testid={`button-mute-voice-${i}`}
+                  >
+                    {mix.muted ? (
+                      <VolumeX className="w-4 h-4 text-muted-foreground" />
+                    ) : (
+                      <Volume2 className="w-4 h-4" />
+                    )}
+                  </Button>
+                  <div className="flex-1">
+                    <div className="text-xs text-muted-foreground mb-1">{VOICE_LABELS[i] ?? `Voice ${i}`}</div>
+                    <Slider
+                      value={[mix.volume]}
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      disabled={mix.muted}
+                      onValueChange={(v) => setVoiceVolume(i, v[0])}
+                      data-testid={`slider-volume-voice-${i}`}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           
           {/* Transport & Export Footer */}
           <div className="h-20 border-t border-border bg-card px-6 flex items-center justify-between">

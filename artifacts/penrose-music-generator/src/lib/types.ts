@@ -102,6 +102,9 @@ export interface GeneratorParams {
   rhythmDensity: number;
   mapping: MappingRules;
   melodyMode: MelodyMode;
+  contourPhraseLen: number;
+  contourAmplitude: number;
+  maxIntervalJump: number;
 }
 
 export const DEFAULT_PARAMS: GeneratorParams = {
@@ -115,6 +118,9 @@ export const DEFAULT_PARAMS: GeneratorParams = {
   rhythmDensity: 0.55,
   mapping: DEFAULT_MAPPING,
   melodyMode: "geometric",
+  contourPhraseLen: 16,
+  contourAmplitude: 4,
+  maxIntervalJump: 2,
 };
 
 export interface MusicEvent {
@@ -134,3 +140,15 @@ export interface Preset {
   createdAt: string;
   params: GeneratorParams;
 }
+
+export interface VoiceMixSettings {
+  volume: number;
+  muted: boolean;
+}
+
+export const DEFAULT_VOICE_MIX: VoiceMixSettings[] = [
+  { volume: 1, muted: false },
+  { volume: 1, muted: false },
+];
+
+export const VOICE_LABELS = ["Voice A (Kite)", "Voice B (Dart)"];

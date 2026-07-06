@@ -1,4 +1,4 @@
-import type { MusicEvent } from "./types";
+import type { MusicEvent, VoiceMixSettings } from "./types";
 
 const GROUP_WAVEFORMS: OscillatorType[] = ["sine", "triangle", "sawtooth", "square"];
 
@@ -23,7 +23,7 @@ export class AudioEngine {
     return this.ctx;
   }
 
-  play(events: MusicEvent[], masterVolume = 0.7) {
+  play(events: MusicEvent[], masterVolume = 0.7, voiceMix?: VoiceMixSettings[]) {
     this.stop();
     if (events.length === 0) return;
     const ctx = this.ensureContext();
@@ -36,6 +36,10 @@ export class AudioEngine {
     );
 
     for (const evt of events) {
+      const mix = voiceMix?.[evt.voice];
+      if (mix?.muted) continue;
+      const voiceVolume = mix?.volume ?? 1;
+
       const when = this.startedAt + evt.time;
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
@@ -45,7 +49,7 @@ export class AudioEngine {
       osc.frequency.value = midiToFrequency(evt.note);
       panner.pan.value = Math.max(-1, Math.min(1, evt.pan));
 
-      const peak = Math.min(0.9, (evt.velocity / 127) * masterVolume);
+      const peak = Math.min(0.9, (evt.velocity / 127) * masterVolume * voiceVolume);
       const attack = Math.min(0.03, evt.duration * 0.2);
       const release = Math.min(0.25, evt.duration * 0.6);
 

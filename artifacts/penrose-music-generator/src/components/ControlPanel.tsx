@@ -99,6 +99,60 @@ export default function ControlPanel({ params, onChange, onGenerate, isGeneratin
           </p>
         </div>
 
+        {params.melodyMode === "melodicInterweave" && (
+          <div className="space-y-4 rounded-md border border-border/50 p-3">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Melodic Contour</h3>
+
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <Label className="text-xs">Phrase Length</Label>
+                <span className="text-xs text-muted-foreground">{params.contourPhraseLen} notes</span>
+              </div>
+              <Slider
+                value={[params.contourPhraseLen]}
+                min={4}
+                max={32}
+                step={1}
+                onValueChange={(v) => updateParam("contourPhraseLen", v[0])}
+                data-testid="slider-contour-phrase-len"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <Label className="text-xs">Contour Amount</Label>
+                <span className="text-xs text-muted-foreground">{params.contourAmplitude} degrees</span>
+              </div>
+              <Slider
+                value={[params.contourAmplitude]}
+                min={0}
+                max={8}
+                step={1}
+                onValueChange={(v) => updateParam("contourAmplitude", v[0])}
+                data-testid="slider-contour-amplitude"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between">
+                <Label className="text-xs">Max Leap</Label>
+                <span className="text-xs text-muted-foreground">{params.maxIntervalJump} degrees</span>
+              </div>
+              <Slider
+                value={[params.maxIntervalJump]}
+                min={1}
+                max={6}
+                step={1}
+                onValueChange={(v) => updateParam("maxIntervalJump", v[0])}
+                data-testid="slider-max-interval-jump"
+              />
+            </div>
+            <p className="text-[10px] text-muted-foreground">
+              Shorter phrases and a smaller max leap make voices move stepwise and follow each other closely; a larger contour amount adds wider melodic swings.
+            </p>
+          </div>
+        )}
+
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label>Tempo (BPM)</Label>
