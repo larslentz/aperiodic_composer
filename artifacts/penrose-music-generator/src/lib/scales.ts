@@ -59,7 +59,7 @@ export function midiToNoteName(note: number): string {
   return `${names[note % 12]}${octave}`;
 }
 
-export const ROOT_NOTE_OPTIONS = Array.from({ length: 12 }, (_, i) => ({
-  value: 48 + i,
-  label: midiToNoteName(48 + i),
+export const ROOT_NOTE_OPTIONS = Array.from({ length: 25 }, (_, i) => ({
+  value: 36 + i,
+  label: midiToNoteName(36 + i),
 }));
