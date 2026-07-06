@@ -9,28 +9,6 @@ args = ["pnpm", "store", "prune"]
 env = { "CI" = "true" }
 
 [workflows]
-runButton = "Project"
-
-[[workflows.workflow]]
-name = "Project"
-mode = "parallel"
-author = "agent"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "penrose-music-generator"
-
-[[workflows.workflow]]
-name = "penrose-music-generator"
-author = "agent"
-
-[workflows.workflow.metadata]
-outputType = "webview"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "cd artifacts/penrose-music-generator && PORT=22642 BASE_PATH=/ pnpm run dev"
-waitForPort = 22642
 
 [agent]
 stack = "PNPM_WORKSPACE"
