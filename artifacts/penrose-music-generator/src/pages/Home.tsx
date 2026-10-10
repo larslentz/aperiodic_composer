@@ -19,8 +19,9 @@ import PenroseCanvas from "@/components/PenroseCanvas";
 import ControlPanel from "@/components/ControlPanel";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Square, Download, Upload, Loader2, Save, Volume2, VolumeX, HardDriveDownload } from "lucide-react";
+import { Play, Square, Download, Upload, Loader2, Save, Volume2, VolumeX, HardDriveDownload, BookOpen } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Link } from "wouter";
 
 export default function Home() {
   const { toast } = useToast();
@@ -202,6 +203,12 @@ export default function Home() {
         </div>
         
         <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" asChild>
+            <Link href="/about" aria-label="Read the thinking behind this app">
+              <BookOpen className="w-4 h-4 mr-2" />
+              About
+            </Link>
+          </Button>
           <a
             href={`${import.meta.env.BASE_URL}lars-lentz-aperiodic-composer-offline.zip`}
             download
