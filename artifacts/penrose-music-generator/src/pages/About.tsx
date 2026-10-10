@@ -86,6 +86,75 @@ export default function About() {
 
         <div className="my-12 h-px bg-border sm:my-16" />
 
+        <section
+          className="mb-12 rounded-lg border border-border bg-card/60 p-5 sm:mb-16 sm:p-8"
+          aria-labelledby="penrose-math-title"
+        >
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-primary">
+            The pattern, in numbers
+          </p>
+          <h2 id="penrose-math-title" className="mt-3 text-2xl font-semibold tracking-tight sm:text-3xl">
+            A golden ratio, applied recursively
+          </h2>
+          <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground sm:text-base">
+            The Penrose construction is tied to the golden ratio. The generator
+            uses its reciprocal to place new points along triangle edges, then
+            repeats kite-and-dart subdivision rules at each depth.
+          </p>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-md border border-border bg-background/70 p-4">
+              <p
+                className="font-mono text-lg text-foreground sm:text-xl"
+                aria-label="Phi equals one plus the square root of five, divided by two; approximately 1.618"
+              >
+                φ = (1 + √5) / 2
+              </p>
+              <p className="mt-2 font-mono text-xs text-primary">φ ≈ 1.618</p>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                The golden ratio: a proportion that appears throughout the
+                tiling&apos;s self-similar construction.
+              </p>
+            </div>
+
+            <div className="rounded-md border border-border bg-background/70 p-4">
+              <p
+                className="font-mono text-lg text-foreground sm:text-xl"
+                aria-label="One over phi equals phi minus one; approximately 0.618"
+              >
+                1 / φ = φ − 1
+              </p>
+              <p className="mt-2 font-mono text-xs text-primary">1 / φ ≈ 0.618</p>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                This is the edge fraction used to locate subdivision points.
+                It divides an edge in the same golden-ratio proportion.
+              </p>
+            </div>
+
+            <div className="rounded-md border border-border bg-background/70 p-4">
+              <p
+                className="font-mono text-lg text-foreground sm:text-xl"
+                aria-label="Kite becomes kite plus dart. Dart becomes kite plus two darts."
+              >
+                K → K + D
+                <br />
+                D → K + 2D
+              </p>
+              <p className="mt-2 font-mono text-xs text-primary">subdivision rules</p>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                Each step replaces a kite with one kite and one dart, or a dart
+                with one kite and two darts.
+              </p>
+            </div>
+          </div>
+
+          <p className="mt-5 max-w-3xl text-sm leading-7 text-muted-foreground">
+            In this app, those kite and dart regions stay as individual
+            triangular pieces instead of being merged into rhombi. That keeps
+            each piece available for musical mapping and neighbor analysis.
+          </p>
+        </section>
+
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-16">
           <div className="space-y-12">
             {chapters.map(({ number, title, icon: Icon, paragraphs }) => (
