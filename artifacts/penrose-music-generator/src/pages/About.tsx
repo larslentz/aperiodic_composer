@@ -35,7 +35,7 @@ const chapters = [
     title: "Choose how much melody to impose",
     icon: AudioLines,
     paragraphs: [
-      "In Geometric mode, the chosen mapping is heard directly. Melodic / Interweave takes another approach: kite and dart tiles become two voices, each with its own smoothed contour. Phrase length, contour amount, and maximum leap let you decide how strongly those voices arc and how closely they stay connected.",
+      "Geometric mode maps tile data directly to notes. Melodic / Interweave turns kite and dart tiles into two smoothed voices. Musical mode follows a rising and falling phrase over alternating four-beat grooves, with varied note lengths, rests, and accents.",
       "Neither approach is meant to be the one correct interpretation. The point is to make the same geometry available as both a direct translation and a more shaped musical reading.",
     ],
   },

@@ -8,6 +8,59 @@ import type {
 import { orderTiles } from "./traversal";
 import { degreeToNote } from "./scales";
 
+type MusicalRhythmSlot = {
+  durationSteps: number;
+  optional?: boolean;
+  accent?: "strong" | "light";
+};
+
+const MUSICAL_STEPS_PER_BAR = 16;
+const MUSICAL_RHYTHM_BARS: (MusicalRhythmSlot | null)[][] = [
+  [
+    { durationSteps: 4, accent: "strong" },
+    null,
+    null,
+    null,
+    { durationSteps: 2, optional: true, accent: "light" },
+    null,
+    null,
+    null,
+    { durationSteps: 4, accent: "strong" },
+    null,
+    null,
+    null,
+    { durationSteps: 2, optional: true, accent: "light" },
+    null,
+    null,
+    null,
+  ],
+  [
+    { durationSteps: 3, accent: "strong" },
+    null,
+    null,
+    { durationSteps: 1, optional: true, accent: "light" },
+    null,
+    null,
+    null,
+    null,
+    { durationSteps: 4, accent: "strong" },
+    null,
+    null,
+    null,
+    { durationSteps: 2, optional: true, accent: "light" },
+    null,
+    null,
+    null,
+  ],
+];
+
+const MUSICAL_DEGREE_MOTIF = [
+  0, 2, 4, 2,
+  1, 3, 5, 3,
+  2, 4, 3, 1,
+  2, 1, 0, 0,
+];
+
 function hashString(input: string): number {
   let h = 2166136261;
   for (let i = 0; i < input.length; i++) {
@@ -82,6 +135,7 @@ export function generateEventSequence(
   const events: MusicEvent[] = [];
   const degreeSpan = 21; // roughly 3 octaves of scale degrees
   const interweave = params.melodyMode === "melodicInterweave";
+  const musical = params.melodyMode === "musical";
   const phraseLen = params.contourPhraseLen ?? 16;
   const contourAmplitude = params.contourAmplitude ?? 4;
   const maxIntervalJump = params.maxIntervalJump ?? 2;
@@ -90,8 +144,26 @@ export function generateEventSequence(
   const voiceTimeCounters = [0, 0];
 
   ordered.forEach((tile, i) => {
-    const gate = hashString(`${tile.id}:gate`);
-    if (gate > params.rhythmDensity) return;
+    const musicalBarIndex = Math.floor(i / MUSICAL_STEPS_PER_BAR);
+    const musicalSlotIndex = i % MUSICAL_STEPS_PER_BAR;
+    const musicalSlot = musical
+      ? MUSICAL_RHYTHM_BARS[musicalBarIndex % MUSICAL_RHYTHM_BARS.length][
+          musicalSlotIndex
+        ]
+      : null;
+
+    if (musical) {
+      if (!musicalSlot) return;
+      if (
+        musicalSlot.optional &&
+        hashString(`${tile.id}:musical-fill`) > params.rhythmDensity
+      ) {
+        return;
+      }
+    } else {
+      const gate = hashString(`${tile.id}:gate`);
+      if (gate > params.rhythmDensity) return;
+    }
 
     const noteVal = sourceValue(
       tile,
@@ -141,6 +213,14 @@ export function generateEventSequence(
       );
       voicePrevDegree[voice] = degree;
       voiceStepCounters[voice] += 1;
+    } else if (musical && musicalSlot) {
+      const phraseStep =
+        Math.floor(i / 4) % MUSICAL_DEGREE_MOTIF.length;
+      const geometryVariation =
+        phraseStep === MUSICAL_DEGREE_MOTIF.length - 1
+          ? 0
+          : Math.round(noteVal * 2) - 1;
+      degree = MUSICAL_DEGREE_MOTIF[phraseStep] + geometryVariation;
     } else {
       degree = Math.round(rawDegree);
     }
@@ -152,8 +232,16 @@ export function generateEventSequence(
       params.noteRangeLow,
       params.noteRangeHigh,
     );
-    const velocity = Math.round(40 + velVal * 87);
-    const durationSteps = 1 + Math.round(durVal * 5);
+    const baseVelocity = Math.round(40 + velVal * 87);
+    const accentOffset =
+      musicalSlot?.accent === "strong"
+        ? 16
+        : musicalSlot?.accent === "light"
+          ? -12
+          : 0;
+    const velocity = Math.max(1, Math.min(127, baseVelocity + accentOffset));
+    const durationSteps =
+      musicalSlot?.durationSteps ?? 1 + Math.round(durVal * 5);
     const duration = durationSteps * step;
     let pan = panVal * 2 - 1;
     let sampleGroup = Math.min(3, Math.floor(groupVal * 4));
@@ -167,6 +255,8 @@ export function generateEventSequence(
     if (interweave) {
       time = voiceTimeCounters[voice];
       voiceTimeCounters[voice] += step;
+    } else if (musical && musicalSlot) {
+      time = i * step;
     } else {
       time = i * step;
     }

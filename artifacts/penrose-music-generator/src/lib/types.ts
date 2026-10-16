@@ -84,11 +84,12 @@ export const DEFAULT_MAPPING: MappingRules = {
   sampleGroupSource: "tileType",
 };
 
-export type MelodyMode = "geometric" | "melodicInterweave";
+export type MelodyMode = "geometric" | "melodicInterweave" | "musical";
 
 export const MELODY_MODES: { value: MelodyMode; label: string }[] = [
   { value: "geometric", label: "Geometric (raw mapping)" },
   { value: "melodicInterweave", label: "Melodic / Interweave" },
+  { value: "musical", label: "Musical (Phrase & Groove)" },
 ];
 
 export interface GeneratorParams {

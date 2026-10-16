@@ -95,7 +95,11 @@ export default function ControlPanel({ params, onChange, onGenerate, isGeneratin
             </SelectContent>
           </Select>
           <p className="text-[10px] text-muted-foreground">
-            Geometric maps tile data directly to notes. Melodic / Interweave splits kite and dart tiles into two smoothed, phrasing voices that interlock.
+            {params.melodyMode === "musical"
+              ? "Musical mode shapes notes into a rising and falling phrase over alternating four-beat grooves, with rests and accents."
+              : params.melodyMode === "melodicInterweave"
+                ? "Melodic / Interweave splits kite and dart tiles into two smoothed, phrasing voices that interlock."
+                : "Geometric maps tile data directly to notes."}
           </p>
         </div>
 
@@ -180,6 +184,11 @@ export default function ControlPanel({ params, onChange, onGenerate, isGeneratin
                 data-testid="slider-density"
               />
             </div>
+            {params.melodyMode === "musical" && (
+              <p className="text-[10px] text-muted-foreground">
+                Keeps the main beats and fills in lighter notes as density increases.
+              </p>
+            )}
           </div>
         </div>
 
@@ -257,23 +266,31 @@ export default function ControlPanel({ params, onChange, onGenerate, isGeneratin
           { label: "Stereo Panning", key: "panSource" as const },
           { label: "Timbre / Group", key: "sampleGroupSource" as const },
         ].map(({ label, key }) => (
-          <div key={key} className="flex items-center justify-between">
-            <Label className="text-xs w-1/2">{label}</Label>
-            <Select 
-              value={params.mapping[key]} 
-              onValueChange={(v: any) => updateMapping(key, v)}
-            >
-              <SelectTrigger className="w-1/2 h-8 text-xs" data-testid={`select-mapping-${key}`}>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {MAPPING_SOURCES.map(source => (
-                  <SelectItem key={source.value} value={source.value} className="text-xs">
-                    {source.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div key={key} className="space-y-1">
+            <div className="flex items-center justify-between">
+              <Label className="text-xs w-1/2">{label}</Label>
+              <Select
+                value={params.mapping[key]}
+                onValueChange={(v: any) => updateMapping(key, v)}
+                disabled={params.melodyMode === "musical" && key === "durationSource"}
+              >
+                <SelectTrigger className="w-1/2 h-8 text-xs" data-testid={`select-mapping-${key}`}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {MAPPING_SOURCES.map(source => (
+                    <SelectItem key={source.value} value={source.value} className="text-xs">
+                      {source.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {params.melodyMode === "musical" && key === "durationSource" && (
+              <p className="text-[10px] text-muted-foreground">
+                Musical mode sets note lengths with its beat-aligned groove.
+              </p>
+            )}
           </div>
         ))}
       </section>
