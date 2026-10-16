@@ -193,13 +193,7 @@ export default function Home() {
           <div className="w-8 h-8 rounded bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-glow">
             P
           </div>
-          <h1 className="text-xl font-bold tracking-tight">Lars Lentz's Aperiodic Composer</h1>
-          <span
-            className="text-[10px] font-mono text-muted-foreground border border-border rounded px-1.5 py-0.5"
-            data-testid="text-app-version"
-          >
-            v1.01
-          </span>
+          <h1 className="text-xl font-bold tracking-tight">Penrose Composer</h1>
         </div>
         
         <div className="flex items-center gap-2">

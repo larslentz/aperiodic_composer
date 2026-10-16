@@ -39,8 +39,8 @@ export default defineConfig({
       includeAssets: ["icon-512.png"],
       manifest: {
         id: basePath,
-        name: "Lars Lentz's Aperiodic Composer",
-        short_name: "Aperiodic Composer",
+        name: "Penrose Composer",
+        short_name: "Penrose Composer",
         description:
           "Generate Penrose-inspired quasi-periodic tilings and convert them into exportable musical sequences.",
         start_url: basePath,
