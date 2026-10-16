@@ -39,8 +39,8 @@ export default defineConfig({
       includeAssets: ["icon-512.png"],
       manifest: {
         id: basePath,
-        name: "Penrose Composer",
-        short_name: "Penrose Composer",
+        name: "Aperiodic Composer",
+        short_name: "Aperiodic Composer",
         description:
           "Generate Penrose-inspired quasi-periodic tilings and convert them into exportable musical sequences.",
         start_url: basePath,

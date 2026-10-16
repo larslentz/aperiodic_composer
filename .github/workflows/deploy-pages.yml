@@ -1,4 +1,4 @@
-name: Build and deploy Penrose Composer
+name: Build and deploy Aperiodic Composer
 
 on:
   push:

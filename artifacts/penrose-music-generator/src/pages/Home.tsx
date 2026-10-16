@@ -191,9 +191,9 @@ export default function Home() {
       <header className="flex-none h-16 border-b border-border px-6 flex items-center justify-between bg-card">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-glow">
-            P
+            A
           </div>
-          <h1 className="text-xl font-bold tracking-tight">Penrose Composer</h1>
+          <h1 className="text-xl font-bold tracking-tight">Aperiodic Composer</h1>
         </div>
         
         <div className="flex items-center gap-2">

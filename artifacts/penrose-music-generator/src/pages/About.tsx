@@ -48,13 +48,13 @@ export default function About() {
         <Link
           href="/"
           className="flex min-w-0 items-center gap-3 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-          aria-label="Return to Penrose Composer"
+          aria-label="Return to Aperiodic Composer"
         >
           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded bg-primary font-bold text-primary-foreground shadow-glow">
-            P
+            A
           </span>
           <span className="truncate text-sm font-semibold sm:text-base">
-            Penrose Composer
+            Aperiodic Composer
           </span>
         </Link>
         <Button variant="outline" size="sm" asChild>

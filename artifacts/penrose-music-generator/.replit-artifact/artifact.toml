@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Lars Lentz's Aperiodic Composer"
+title = "Aperiodic Composer"
 version = "1.0.0"
 id = "artifacts/penrose-music-generator"
 router = "path"

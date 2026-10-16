@@ -11,15 +11,18 @@ id = "4QUok5WKy68RtfJptXowQ"
 uri = "file://lars-lentz-aperiodic-composer-source.zip"
 type = "unspecified"
 title = "Fixed GitHub source zip (build error resolved)"
+logical_id = "e057078a-ad7e-4c7c-af58-92d5a82633c1"
 
 [[outputs]]
 id = "GtSsIY39ZJRAl_YqDCDKw"
 uri = "file://artifacts/penrose-music-generator/public/lars-lentz-aperiodic-composer-offline.zip"
 type = "unspecified"
 title = "Offline static build (same file the in-app Download Offline link serves)"
+logical_id = "44662fb1-efee-4818-9a11-4695d4e3d272"
 
 [[outputs]]
 id = "EbTfRbslL1GuUo6HzFRAQ"
 uri = "file://aperiodic-composer-static-site.zip"
 type = "unspecified"
 title = "Pre-built static site (no build step needed)"
+logical_id = "b1a7a6e5-838d-4c00-acad-0df4b378f178"
