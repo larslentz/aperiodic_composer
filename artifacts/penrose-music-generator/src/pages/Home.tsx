@@ -19,7 +19,7 @@ import PenroseCanvas from "@/components/PenroseCanvas";
 import ControlPanel from "@/components/ControlPanel";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Square, Download, Upload, Loader2, Save, Volume2, VolumeX, HardDriveDownload, BookOpen } from "lucide-react";
+import { Play, Square, Download, Upload, Loader2, Save, Volume2, VolumeX, HardDriveDownload, BookOpen, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 
@@ -194,6 +194,20 @@ export default function Home() {
             A
           </div>
           <h1 className="text-xl font-bold tracking-tight">Aperiodic Composer</h1>
+          <div className="hidden lg:flex flex-col gap-1 rounded-md border border-border/60 bg-background/40 px-3 py-1.5 leading-none">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+              By Lars Lentz
+            </span>
+            <a
+              href="https://sleek.bio/larslentz"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-primary underline decoration-primary/70 underline-offset-2 transition-colors hover:text-primary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+            >
+              More by Lars
+              <ExternalLink aria-hidden="true" className="h-3.5 w-3.5" />
+            </a>
+          </div>
         </div>
         
         <div className="flex items-center gap-2">
