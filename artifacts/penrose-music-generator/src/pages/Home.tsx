@@ -16,6 +16,7 @@ import { downloadEventCsv } from "@/lib/csvExport";
 import { downloadPreset, parsePreset } from "@/lib/presetExport";
 
 import PenroseCanvas from "@/components/PenroseCanvas";
+import AperiodicBackground from "@/components/AperiodicBackground";
 import ControlPanel from "@/components/ControlPanel";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -264,13 +265,14 @@ export default function Home() {
         {/* Center - Visualization & Transport */}
         <section className="flex-1 flex flex-col relative bg-background">
           <div className="flex-1 p-6 relative">
+            <AperiodicBackground />
             {isGenerating ? (
-              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-background/50 backdrop-blur-sm">
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-background/50 backdrop-blur-sm">
                 <Loader2 className="w-10 h-10 animate-spin text-primary mb-4" />
                 <span className="text-muted-foreground animate-pulse">Computing geometry...</span>
               </div>
             ) : null}
-            <PenroseCanvas tiling={tiling} activeTileIds={activeTileIds} />
+            <PenroseCanvas tiling={tiling} activeTileIds={activeTileIds} transparent />
           </div>
 
           {/* Voice Mixer */}

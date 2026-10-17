@@ -4,9 +4,10 @@ import { Tile, PenroseTiling } from "@/lib/types";
 interface PenroseCanvasProps {
   tiling: PenroseTiling | null;
   activeTileIds: string[];
+  transparent?: boolean;
 }
 
-export default function PenroseCanvas({ tiling, activeTileIds }: PenroseCanvasProps) {
+export default function PenroseCanvas({ tiling, activeTileIds, transparent = false }: PenroseCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const drawRef = useRef<() => void>(() => {});
 
@@ -102,7 +103,7 @@ export default function PenroseCanvas({ tiling, activeTileIds }: PenroseCanvasPr
   return (
     <canvas 
       ref={canvasRef} 
-      className="w-full h-full bg-card rounded-md border border-border shadow-inner"
+      className={`relative z-10 w-full h-full rounded-md border border-border shadow-inner ${transparent ? "bg-transparent" : "bg-card"}`}
       data-testid="penrose-canvas"
     />
   );
